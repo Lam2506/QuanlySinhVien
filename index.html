@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý sinh viên</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-user-graduate"></i> Quản lý sinh viên</h1>
+        </header>
+
+        <div class="form-container">
+            <h2>Thêm sinh viên mới</h2>
+            <form id="studentForm">
+                <div class="form-group">
+                    <label for="nameInput">
+                        <i class="fas fa-user"></i> Họ và tên:
+                    </label>
+                    <input type="text" id="nameInput" placeholder="Nhập họ và tên..." required />
+                </div>
+
+                <div class="form-group">
+                    <label for="birthdayInput">
+                        <i class="fas fa-calendar"></i> Ngày sinh:
+                    </label>
+                    <input type="date" id="birthdayInput" required />
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        <i class="fas fa-venus-mars"></i> Giới tính:
+                    </label>
+                    <div class="gender-group">
+                        <input type="radio" name="gender" id="genderMale" value="Nam" required />
+                        <label for="genderMale">Nam</label>
+
+                        <input type="radio" name="gender" id="genderFemale" value="Nữ" />
+                        <label for="genderFemale">Nữ</label>
+
+                        <input type="radio" name="gender" id="genderOther" value="Khác" />
+                        <label for="genderOther">Khác</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="addressInput">
+                        <i class="fas fa-map-marker-alt"></i> Địa chỉ:
+                    </label>
+                    <input type="text" id="addressInput" placeholder="Nhập địa chỉ..." required />
+                </div>
+
+                <div class="form-group">
+                    <label for="phoneInput">
+                        <i class="fas fa-phone"></i> Số điện thoại:
+                    </label>
+                    <input type="tel" id="phoneInput" placeholder="Nhập số điện thoại..." required />
+                </div>
+
+                <div class="form-group">
+                    <label for="emailInput">
+                        <i class="fas fa-envelope"></i> Email:
+                    </label>
+                    <input type="email" id="emailInput" placeholder="Nhập email..." required />
+                </div>
+
+                <div class="form-group">
+                    <label for="majorInput">
+                        <i class="fas fa-book"></i> Ngành học:
+                    </label>
+                    <select id="majorInput" required>
+                        <option value="">Chọn ngành học</option>
+                        <option value="Công nghệ thông tin">Công nghệ thông tin</option>
+                        <option value="Kỹ thuật điện">Kỹ thuật điện</option>
+                        <option value="Kinh tế">Kinh tế</option>
+                        <option value="Y khoa">Y khoa</option>
+                        <option value="Luật">Luật</option>
+                    </select>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" id="addButton">
+                        <i class="fas fa-plus"></i> Thêm sinh viên
+                    </button>
+                    <button type="reset" id="resetButton">
+                        <i class="fas fa-redo"></i> Làm mới
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <h2>Danh sách sinh viên</h2>
+            <!-- <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm sinh viên..." />
+                <i class="fas fa-search"></i>
+            </div> -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Họ và tên</th>
+                        <th>Ngày sinh</th>
+                        <th>Giới tính</th>
+                        <th>Địa chỉ</th>
+                        <th>Số điện thoại</th>
+                        <th>Email</th>
+                        <th>Ngành học</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="studentTable">
+                    <!-- Dữ liệu sẽ được hiển thị tại đây -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+       // create array student
+       const students = [];
+       // create function gender
+       function getSelectedGender(){
+        const radios = document.getElementsByName("gender");
+        for(let radio of radios ){
+            if(radio.checked){
+                return radio.value;
+            }
+        }
+        return "";
+       }
+    
+       // create function add student
+       function addStudent(e){
+        e.preventDefault();
+        //ngăn chặn file bị reload lại
+        const name = document.getElementById("nameInput").value;
+        const birthday = document.getElementById("birthdayInput").value;
+        const gender = getSelectedGender();
+        const address = document.getElementById("addressInput").value;
+        const phone = document.getElementById("phoneInput").value;
+        const email = document.getElementById("emailInput").value;
+        const major = document.getElementById("majorInput").value;
+        
+        if (name === "" || birthday === "" || gender === "" || address === "" || phone === "" || email === "" || major === ""){
+            alert("Vui lòng nhập đầy đủ thông tin");
+            return;
+        }
+        students.push({name, birthday, gender, address, phone, email, major});
+        displayStudents();
+        clearForm();
+       }
+       function clearForm(){
+        document.getElementById("nameInput").value = "";
+        document.getElementById("birthdayInput").value = "";
+        document.getElementById("genderMale").checked = false;
+        document.getElementById("genderFemale").checked = false;
+        document.getElementById("genderOther").checked = false;
+        document.getElementById("addressInput").value = "";
+        document.getElementById("phoneInput").value = "";
+        document.getElementById("emailInput").value = "";
+        document.getElementById("majorInput").value = "";
+       }
+       //hàm hiển thị dữ liệu lên bảng
+       function displayStudents(){
+        const tableBody = document.getElementById("studentTable");
+        tableBody.innerHTML = "";
+        students.forEach((student, index) => {
+            const row = `<tr>
+                <td>${index + 1}</td>
+                <td>${student.name}</td>
+                <td>${formatDate(student.birthday)}</td>
+                <td>${student.gender}</td>
+                <td>${student.address}</td>
+                <td>${student.phone}</td>
+                <td>${student.email}</td>
+                <td>${student.major}</td>
+                <td>
+                    <button onclick="editStudent(${index})" class="edit-btn">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="deleteStudent(${index})" class="delete-btn">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            </tr>`;
+            tableBody.innerHTML += row;
+        });
+       }
+
+       // Hàm định dạng ngày tháng
+       function formatDate(dateString) {
+           const date = new Date(dateString);
+           return date.toLocaleDateString('vi-VN');
+       }
+
+    //    // Hàm xóa sinh viên
+    //    function deleteStudent(index) {
+    //        if(confirm("Bạn có chắc chắn muốn xóa sinh viên này?")) {
+    //            students.splice(index, 1);
+    //            displayStudents();
+    //        }
+    //    }
+
+    //    // Hàm sửa thông tin sinh viên
+    //    function editStudent(index) {
+    //        const student = students[index];
+    //        document.getElementById("nameInput").value = student.name;
+    //        document.getElementById("birthdayInput").value = student.birthday;
+    //        document.getElementById("addressInput").value = student.address;
+    //        document.getElementById("phoneInput").value = student.phone;
+    //        document.getElementById("emailInput").value = student.email;
+    //        document.getElementById("majorInput").value = student.major;
+           
+    //        // Set gender radio button
+    //        const radios = document.getElementsByName("gender");
+    //        for(let radio of radios) {
+    //            if(radio.value === student.gender) {
+    //                radio.checked = true;
+    //                break;
+    //            }
+    //        }
+
+    //        // Xóa sinh viên cũ
+    //        students.splice(index, 1);
+           
+    //        // Thay đổi nút thêm thành nút cập nhật
+    //        const addButton = document.getElementById("addButton");
+    //        addButton.innerHTML = '<i class="fas fa-save"></i> Cập nhật';
+    //        addButton.onclick = function(e) {
+    //            e.preventDefault();
+    //            addStudent(e);
+    //            addButton.innerHTML = '<i class="fas fa-plus"></i> Thêm sinh viên';
+    //            addButton.onclick = null;
+    //        };
+    //    }
+
+       // Thêm event listener cho form
+       document.getElementById("studentForm").addEventListener("submit", addStudent);
+    </script>
+</body>
+</html>
