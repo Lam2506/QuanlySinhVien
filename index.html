@@ -179,7 +179,9 @@
                 <td>${student.email}</td>
                 <td>${student.major}</td>
                 <td>
-                    
+                    <button onclick="editstudent(${index})" class="edit-btn">
+                        <i class="fas fa-edit"></i>
+                    </button>
                     <button onclick="deleteStudent(${index})" class="delete-btn">
                         <i class="fas fa-trash"></i>
                     </button>
@@ -204,9 +206,34 @@
             students.splice(index, 1);
             displayStudents();
             }
-    }
+        }
+        function editstudent(index){
+            const student = students[index];
+            document.querySelector("#nameInput").value = student.name;
+            document.getElementById("birthdayInput").value = student.birthday;
+            document.getElementById("addressInput").value = student.address;
+            document.getElementById("phoneInput").value = student.phone;
+            document.getElementById("emailInput").value = student.email;
+            document.getElementById("majorInput").value = student.major;
+            // đọc giá trị của radio button
+            const radios = document.getElementsByName("gender");
+            for(let radio of radios){
+                if(radio.checked){
+                    return radio.value;
+                }
+            }
+            // xóa dữ liệu sinh viên cũ
+            students.splice(index,1);
+            //thay đổi nút them thành nút sửa
+            const addButton = document.getElementById("addButton");
+            addButton.innerHTML = `<i class="fas fa-edit"></i> Sửa sinh viên`;
+            addButton.removeEventListener("click", addStudent);
+        }
 
+      
+          
     
+        
               
        // Thêm event listener cho form
        document.getElementById("studentForm").addEventListener("submit", addStudent);

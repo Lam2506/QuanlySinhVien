@@ -215,6 +215,38 @@ tr:hover {
     background-color: #c0392b;
 }
 
+/* ...existing code... */
+.edit-btn,
+.delete-btn {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    padding: 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-btn {
+    background-color: #f1c40f;
+    color: white;
+    margin-right: 5px;
+}
+
+.edit-btn:hover {
+    background-color: #f39c12;
+}
+
+.edit-btn i,
+.delete-btn i {
+    font-size: 18px;
+    pointer-events: none;
+}
+/* ...existing code... */
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
