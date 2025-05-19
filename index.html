@@ -137,7 +137,7 @@
        function addStudent(e){
         e.preventDefault();
         //ngăn chặn file bị reload lại
-        const name = document.getElementById("nameInput").value;
+        const name = document.querySelector("#nameInput").value;
         const birthday = document.getElementById("birthdayInput").value;
         const gender = getSelectedGender();
         const address = document.getElementById("addressInput").value;
@@ -154,7 +154,7 @@
         clearForm();
        }
        function clearForm(){
-        document.getElementById("nameInput").value = "";
+        document.querySelector("#nameInput").value = "";
         document.getElementById("birthdayInput").value = "";
         document.getElementById("genderMale").checked = false;
         document.getElementById("genderFemale").checked = false;
@@ -179,9 +179,7 @@
                 <td>${student.email}</td>
                 <td>${student.major}</td>
                 <td>
-                    <button onclick="editStudent(${index})" class="edit-btn">
-                        <i class="fas fa-edit"></i>
-                    </button>
+                    
                     <button onclick="deleteStudent(${index})" class="delete-btn">
                         <i class="fas fa-trash"></i>
                     </button>
@@ -197,47 +195,19 @@
            return date.toLocaleDateString('vi-VN');
        }
 
-    //    // Hàm xóa sinh viên
-    //    function deleteStudent(index) {
-    //        if(confirm("Bạn có chắc chắn muốn xóa sinh viên này?")) {
-    //            students.splice(index, 1);
-    //            displayStudents();
-    //        }
-    //    }
+       // Hàm xóa sinh viên
+       //  cú pháp array.splice(start, deleteCount, item1, item2, ...) 
+       // start là vị trí bắt đầu xóa, deleteCount là số phần tử cần xóa, 
+       // item1, item2, ...  là các phần tử cần thêm vào
+        function deleteStudent(index){
+            if(confirm("Bạn có chắc chắn muốn xóa sinh viên này không?")){
+            students.splice(index, 1);
+            displayStudents();
+            }
+    }
 
-    //    // Hàm sửa thông tin sinh viên
-    //    function editStudent(index) {
-    //        const student = students[index];
-    //        document.getElementById("nameInput").value = student.name;
-    //        document.getElementById("birthdayInput").value = student.birthday;
-    //        document.getElementById("addressInput").value = student.address;
-    //        document.getElementById("phoneInput").value = student.phone;
-    //        document.getElementById("emailInput").value = student.email;
-    //        document.getElementById("majorInput").value = student.major;
-           
-    //        // Set gender radio button
-    //        const radios = document.getElementsByName("gender");
-    //        for(let radio of radios) {
-    //            if(radio.value === student.gender) {
-    //                radio.checked = true;
-    //                break;
-    //            }
-    //        }
-
-    //        // Xóa sinh viên cũ
-    //        students.splice(index, 1);
-           
-    //        // Thay đổi nút thêm thành nút cập nhật
-    //        const addButton = document.getElementById("addButton");
-    //        addButton.innerHTML = '<i class="fas fa-save"></i> Cập nhật';
-    //        addButton.onclick = function(e) {
-    //            e.preventDefault();
-    //            addStudent(e);
-    //            addButton.innerHTML = '<i class="fas fa-plus"></i> Thêm sinh viên';
-    //            addButton.onclick = null;
-    //        };
-    //    }
-
+    
+              
        // Thêm event listener cho form
        document.getElementById("studentForm").addEventListener("submit", addStudent);
     </script>
